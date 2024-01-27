@@ -118,3 +118,16 @@ https://pwadev.ru/learn/30days-pwa/
 
 # Шпаргалка по MarkDown
 https://gist.github.com/fomvasss/8dd8cd7f88c67a4e3727f9d39224a84c
+
+yarn create-expo-app -e with-router-tailwind // [not-working]
+
+
+# base packages:
+yarn add expo-constants expo-linking expo-router expo-splash-screen nativewind react-native-reanimated react-native-safe-area-context react-native-screens
+yarn add --dev tailwindcss
+
+
+# color scheme:
+"userInterfaceStyle": "automatic",
+yarn add expo-system-ui
+yarn expo config --type introspect
