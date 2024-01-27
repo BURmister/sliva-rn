@@ -3,7 +3,7 @@ import Animated, { useSharedValue, withSpring } from 'react-native-reanimated';
 
 import InfiniteScroll from '../../layout/InfiniteScroll/InfiniteScroll';
 
-export const ProfileScreen = ({ navigation }) => {
+export const MenuScreen = ({ navigation }) => {
    const navigateDetailScreen = (params) => navigation.navigate('DetailScreen', params);
 
    const width = useSharedValue(100);
@@ -18,7 +18,7 @@ export const ProfileScreen = ({ navigation }) => {
 
    return (
       <SafeAreaView style={styles.container}>
-         <Text>Profile </Text>
+         <Text>Menu </Text>
          {/* <View style={{ flexDirection: 'column', rowGap: 16, alignItems: 'center' }}>
             <Animated.View
                style={{
