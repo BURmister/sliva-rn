@@ -1,90 +1,61 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { MainStackNavigator, ContactStackNavigator, HomeStackNavigator } from './StackNavigator';
-import { HomeScreen } from '../screens/Home/Home';
-import { CatalogScreen } from '../screens/Catalog/Catalog';
-import { ProfileScreen } from '../screens/Profile/Profile';
-import { FavoriteScreen } from '../screens/Favorite/Favorite';
-import { BasketScreen } from '../screens/Basket/Basket';
+import { CatalogStackScreen, HomeStackScreen, FavoriteStackScreen, BasketStackScreen, MenuStackScreen } from './StackNavigator';
+import { useSvgIcon } from '../ui/Svg/Svg';
 
-import { BasketTabIcon, CatalogTabIcon, FavoriteTabIcon, HomeTabIcon, ProfileTabIcon } from '../ui/Svg/Svg';
+const TAB_LIST = [
+   { name: 'HomeScreen', title: 'Главная', icon: 'HomeTabIcon', component: HomeStackScreen },
+   { name: 'CatalogScreen', title: 'Каталог', icon: 'CatalogTabIcon', component: CatalogStackScreen },
+   { name: 'FavoriteScreen', title: 'Избранное', icon: 'FavoriteTabIcon', component: FavoriteStackScreen },
+   { name: 'BasketScreen', title: 'Корзина', icon: 'BasketTabIcon', component: BasketStackScreen },
+   { name: 'ProfileScreen', title: 'Профиль', icon: 'ProfileTabIcon', component: MenuStackScreen },
+];
+
+const createOptions = ({ route, navigation }) => {
+   const options = {};
+
+   TAB_LIST.forEach((tab) => {
+      if (tab.name === route.name) {
+         options.title = tab.title;
+         options.tabBarShowLabel = false;
+         options.tabBarActiveTintColor = '#40b484';
+         options.tabBarInactiveTintColor = '#3aaff1';
+
+         options.tabBarIcon = ({ size, focused, color }) => {
+            return useSvgIcon({ name: tab.icon, size, focused, color });
+         };
+
+         switch (tab.name) {
+            case 'HomeScreen':
+               options.headerShown = false;
+               break;
+            case 'CatalogScreen':
+               options.headerShown = false;
+               break;
+            case 'ProfileScreen':
+               options.headerShown = false;
+               break;
+            case 'FavoriteScreen':
+               options.headerShown = false;
+               break;
+            case 'BasketScreen':
+               options.headerShown = false;
+               break;
+         }
+      }
+   });
+
+   return options;
+}
 
 const Tab = createBottomTabNavigator();
-
 const BottomTabNavigator = () => {
    return (
       <Tab.Navigator>
-         <Tab.Screen
-            name="HomeScreen"
-            component={HomeStackNavigator}
-            options={{
-               headerShown: false,
-               title: 'Главная',
-               tabBarShowLabel: false,
-               tabBarActiveTintColor: '#40b484',
-               tabBarInactiveTintColor: '#3aaff1',
-               tabBarIcon: ({ size, focused, color }) => {
-                  return <HomeTabIcon size={size} focused={focused} color={color} />;
-               },
-            }}
-         />
-         <Tab.Screen
-            name="CatalogScreen"
-            component={CatalogScreen}
-            options={{
-               headerShown: false,
-               title: 'Каталог',
-               tabBarShowLabel: false,
-               tabBarActiveTintColor: '#40b484',
-               tabBarInactiveTintColor: '#3aaff1',
-               tabBarIcon: ({ size, focused, color }) => {
-                  return <CatalogTabIcon size={size} focused={focused} color={color} />;
-               },
-            }}
-         />
-         <Tab.Screen
-            name="ProfileScreen"
-            component={ProfileScreen}
-            options={{
-               headerShown: false,
-               title: 'Профиль',
-               tabBarShowLabel: false,
-               tabBarActiveTintColor: '#40b484',
-               tabBarInactiveTintColor: '#3aaff1',
-               tabBarIcon: ({ size, focused, color }) => {
-                  return <ProfileTabIcon size={size} focused={focused} color={color} />;
-               },
-            }}
-         />
-         <Tab.Screen
-            name="FavoriteScreen"
-            component={FavoriteScreen}
-            options={{
-               headerShown: false,
-               title: 'Избранное',
-               tabBarShowLabel: false,
-               tabBarActiveTintColor: '#40b484',
-               tabBarInactiveTintColor: '#3aaff1',
-               tabBarIcon: ({ size, focused, color }) => {
-                  return <FavoriteTabIcon size={size} focused={focused} color={color} />;
-               },
-            }}
-         />
-         <Tab.Screen
-            name="BasketScreen"
-            component={BasketScreen}
-            options={{
-               headerShown: false,
-               title: 'Корзина',
-               tabBarShowLabel: false,
-               tabBarActiveTintColor: '#40b484',
-               tabBarInactiveTintColor: '#3aaff1',
-               tabBarIcon: ({ size, focused, color }) => {
-                  return <BasketTabIcon size={size} focused={focused} color={color} />;
-               },
-            }}
-         />
+         {TAB_LIST.map(({name, component}, index) => {
+            return <Tab.Screen key={index} name={name} component={component} options={(props) => createOptions(props)} />;
+         })}
       </Tab.Navigator>
    );
 };

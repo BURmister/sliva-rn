@@ -1,7 +1,5 @@
 import { SafeAreaView, StyleSheet } from 'react-native';
-
 import HomeSections from '../../layout/HomeSections/HomeSections';
-
 
 export const HomeScreen = ({ navigation }) => {
    const navigateDetailScreen = (params) => navigation.navigate('HomeScreen', { screen: 'Detail', params });
@@ -12,16 +10,6 @@ export const HomeScreen = ({ navigation }) => {
       </SafeAreaView>
    );
 };
-
-// export const HomeScreen = ({ navigation }) => {
-//    const navigateDetailScreen = (params) => navigation.navigate('DetailScreen', params);
-
-//    return (
-//       <SafeAreaView style={styles.container}>
-//          <InfiniteScroll getDataUrl={'https://24135ab27ba65bc5.mokky.dev/products'} captionTitle={'Бесконечный список товаров'} navigateDetailScreen={(params) => navigateDetailScreen(params)} />
-//       </SafeAreaView>
-//    );
-// };
 
 const styles = StyleSheet.create({
    container: {

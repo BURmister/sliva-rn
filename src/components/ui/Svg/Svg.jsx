@@ -68,3 +68,20 @@ export const BasketTabIcon = ({ size, focused, color }) => {
       </Svg>
    );
 };
+
+export const useSvgIcon = ({ name, size, focused, color }) => {
+   switch (name) {
+      case 'HomeTabIcon':
+         return <HomeTabIcon size={size} focused={focused} color={color} />;
+      case 'CatalogTabIcon':
+         return <CatalogTabIcon size={size} focused={focused} color={color} />;
+      case 'ProfileTabIcon':
+         return <ProfileTabIcon size={size} focused={focused} color={color} />;
+      case 'FavoriteTabIcon':
+         return <FavoriteTabIcon size={size} focused={focused} color={color} />;
+      case 'BasketTabIcon':
+         return <BasketTabIcon size={size} focused={focused} color={color} />;
+      default:
+         return null;
+   }
+}
