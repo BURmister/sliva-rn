@@ -1,19 +1,22 @@
 import { SafeAreaView, StyleSheet } from 'react-native';
 import HomeSections from '../../layout/HomeSections/HomeSections';
 
+import * as NavigationBar from 'expo-navigation-bar';
+
 export const HomeScreen = ({ navigation }) => {
-   const navigateDetailScreen = (params) => navigation.navigate('HomeScreen', { screen: 'Detail', params });
+   NavigationBar.setBackgroundColorAsync('white');
+   NavigationBar.setButtonStyleAsync('dark');
+
 
    return (
       <SafeAreaView style={styles.container}>
-         <HomeSections navigateDetailScreen={(params) => navigateDetailScreen(params)} />
+         <HomeSections navigation={navigation} />
       </SafeAreaView>
    );
 };
 
 const styles = StyleSheet.create({
    container: {
-      marginHorizontal: 4,
       flex: 1,
       backgroundColor: '#f6f6f6',
    },

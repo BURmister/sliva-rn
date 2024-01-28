@@ -5,11 +5,12 @@ import axios from 'axios';
 import ProductCard from '../../ui/ProductCard/ProductCard';
 import Loading from '../../ui/Loading/Loading';
 
-export const ScrollList = ({ renderData = [], getDataUrl = "", captionTitle, navigateDetailScreen }) => {
+export const ScrollList = ({ renderData = [], getDataUrl = '', captionTitle, navigation }) => {
    const [data, setData] = useState([]);
    const [loading, setLoading] = useState(false);
 
-
+   const navigateDetailScreen = (params) => navigation.navigate('HomeScreen', { screen: 'Detail', params });
+   
    const renderItem = ({ item }) => {
       return <ProductCard product={item} navigateDetailScreen={(params) => navigateDetailScreen(params)} />;
    };
@@ -33,15 +34,14 @@ export const ScrollList = ({ renderData = [], getDataUrl = "", captionTitle, nav
       else setData(renderData);
    }, []);
 
-   
-
    return (
       <View style={styles.componentWrapper}>
-         <Text style={styles.captionTitle}>{captionTitle} </Text>
-         {
-            loading ?
-            <Loading/>
-            :
+         <View style={{ paddingHorizontal: 8 }}>
+            <Text style={styles.captionTitle}>{captionTitle} </Text>
+         </View>
+         {loading ? (
+            <Loading />
+         ) : (
             <SafeAreaView style={styles.container}>
                <FlatList
                   data={data}
@@ -49,9 +49,10 @@ export const ScrollList = ({ renderData = [], getDataUrl = "", captionTitle, nav
                   keyExtractor={(item) => item.id}
                   horizontal
                   showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={{ paddingHorizontal: 8, gap: 8 }}
                />
             </SafeAreaView>
-         }
+         )}
       </View>
    );
 };

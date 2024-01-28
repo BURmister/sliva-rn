@@ -1,7 +1,7 @@
 import { StyleSheet, View, Text, Pressable, TouchableOpacity, Image } from 'react-native';
 import Svg, { Path, Circle, G, Defs, LinearGradient, Stop, ClipPath, Rect } from 'react-native-svg';
 
-import NoPhotoImg from '../../../../assets/no_photo.png';
+import NoPhotoImg from '../../../assets/no_photo.png';
 
 const trunclateTitle = (title = "") => {
    if (title.length >= 42) return title.substring(0, 42) + '...';
@@ -112,7 +112,6 @@ const styles = StyleSheet.create({
    productCard: {
       position: 'relative',
 
-      marginRight: 4,
       paddingTop: 15,
       paddingHorizontal: 5,
       paddingBottom: 5,

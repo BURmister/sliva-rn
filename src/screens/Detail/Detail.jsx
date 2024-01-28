@@ -8,7 +8,7 @@ import { useSharedValue, withSpring } from 'react-native-reanimated';
 import axios from 'axios';
 
 import Loading from '../../ui/Loading/Loading';
-import NoPhotoImg from '../../../../assets/no_photo.png';
+import NoPhotoImg from '../../../assets/no_photo.png';
 
 const { width, height } = Dimensions.get('screen');
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : StatusBar.currentHeight;
@@ -77,12 +77,12 @@ export const DetailScreen = ({ route, navigation }) => {
                <Animated.FlatList
                   data={product.images}
                   keyExtractor={(_, index) => index.toString()}
-                  snapToInterval={Platform.OS === 'ios' ? IMAGE_HEIGHT : IMAGE_WIDTH}
+                  snapToInterval={IMAGE_WIDTH}
                   decelerationRate="fast"
                   showsVerticalScrollIndicator={false}
                   showsHorizontalScrollIndicator={false}
                   bounces={false}
-                  horizontal={Platform.OS === 'ios' ? false : true}
+                  horizontal={true}
                   onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX, y: scrollY } } }], { useNativeDriver: true })}
                   renderItem={({ item }) => {
                      return (
@@ -92,32 +92,32 @@ export const DetailScreen = ({ route, navigation }) => {
                      );
                   }}
                />
-               <View style={styles.pagination}>
-                  {product.images && product.images.map((_, index) => {
-                     return <View key={index} style={styles.dot} />;
-                  })}
-                  <Animated.View
+               {product.images && (
+                  <View
                      style={[
-                        styles.dotIndicator,
-                        {
-                           transform: [
-                              {
-                                 translateY:
-                                    Platform.OS === 'ios'
-                                       ? Animated.divide(scrollY, IMAGE_HEIGHT).interpolate({
-                                            inputRange: [0, 1],
-                                            outputRange: [0, DOT_INDICATOR_SIZE],
-                                         })
-                                       : Animated.divide(scrollX, IMAGE_WIDTH).interpolate({
-                                            inputRange: [0, 1],
-                                            outputRange: [0, DOT_INDICATOR_SIZE],
-                                         }),
-                              },
-                           ],
-                        },
-                     ]}
-                  />
-               </View>
+                        styles.pagination,
+                        { left: width * 0.5 - (DOT_SIZE * product.images.length + DOT_SPACE * (product.images.length - 1)) * 0.5 },
+                     ]}>
+                     {product.images.map((_, index) => {
+                        return <View key={index} style={styles.dot} />;
+                     })}
+                     <Animated.View
+                        style={[
+                           styles.dotIndicator,
+                           {
+                              transform: [
+                                 {
+                                    translateX: Animated.divide(scrollX, IMAGE_WIDTH).interpolate({
+                                       inputRange: [0, 1],
+                                       outputRange: [0, DOT_INDICATOR_SIZE],
+                                    }),
+                                 },
+                              ],
+                           },
+                        ]}
+                     />
+                  </View>
+               )}
             </View>
             <BottomSheet
                initialSnapIndex={0}
@@ -151,11 +151,12 @@ const styles = StyleSheet.create({
    },
    pagination: {
       position: 'absolute',
-      top: IMAGE_HEIGHT / 2,
-      left: 20,
+      top: IMAGE_HEIGHT * 0.73,
+      flexDirection: 'row',
+      gap: DOT_SPACE,
    },
    dot: {
-      marginBottom: DOT_SPACE,
+      // marginBottom: DOT_SPACE,
       width: DOT_SIZE,
       height: DOT_SIZE,
       borderRadius: DOT_SIZE / 2,
