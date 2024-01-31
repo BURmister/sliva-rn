@@ -1,6 +1,18 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
-import { Image, FlatList, View, StatusBar, Dimensions, StyleSheet, Platform, Animated, Text, ScrollView, TouchableOpacity } from 'react-native';
-
+import {
+   Image,
+   FlatList,
+   View,
+   StatusBar,
+   Dimensions,
+   StyleSheet,
+   Platform,
+   Animated,
+   Text,
+   ScrollView,
+   TouchableOpacity,
+   Share,
+} from 'react-native';
 import axios from 'axios';
 
 import Loading from '../../ui/Loading/Loading';
@@ -30,6 +42,20 @@ export const DetailScreen = ({ route, navigation }) => {
 
       navigation.setOptions({ title: title, headerShown: true });
       setLoading(false);
+   };
+
+   const sendMsg = async () => {
+      try {
+         const { action, activityType } = await Share.share({
+            message: `Моя ссылка:\nhttps://github.com/BURmister/`,
+            title: 'check github',
+         });
+
+         if (action === Share.dismissedAction) return console.log('отклонили');
+         if (action === Share.sharedAction && activityType) return console.log('тип активити: ', activityType);
+      } catch (error) {
+         console.log(error);
+      }
    };
 
    useEffect(() => {
@@ -109,6 +135,11 @@ export const DetailScreen = ({ route, navigation }) => {
                      <Text style={{ fontSize: 14 }}>₽/{product.measure} </Text>
                   </View>
                   <Text style={{ color: '#40b484' }}>сливная цена</Text>
+               </View>
+               <View>
+                  <TouchableOpacity onPress={() => sendMsg()}>
+                     <Text>Поделиться</Text>
+                  </TouchableOpacity>
                </View>
                <Text>
                   Длинное описание. Длинное описание. Длинное описание. Длинное описание. Длинное описание. Длинное описание. Длинное описание.
