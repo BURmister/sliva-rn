@@ -83,7 +83,7 @@ const ProductCard = ({ product, navigateDetailScreen }) => {
                </TouchableOpacity>
             </View>
             <View style={styles.productImgWrapper}>
-               <Image style={styles.productImg} source={NoPhotoImg} />
+               <Image style={styles.productImg} source={product.images[0] ? {uri: product.images[0]} : NoPhotoImg} />
             </View>
             <View style={styles.productPriceWrapper}>
                <View style={styles.productPrice}>

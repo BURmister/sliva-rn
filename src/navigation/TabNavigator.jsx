@@ -7,7 +7,7 @@ import { useSvgIcon } from '../ui/Svg/Svg';
 const TAB_LIST = [
    { name: 'HomeScreen', title: 'Главная', icon: 'HomeTabIcon', component: HomeStackScreen },
    { name: 'CatalogScreen', title: 'Каталог', icon: 'CatalogTabIcon', component: CatalogStackScreen },
-   { name: 'FavoriteScreen', title: 'Избранное', icon: 'FavoriteTabIcon', component: FavoriteStackScreen },
+   // { name: 'FavoriteScreen', title: 'Избранное', icon: 'FavoriteTabIcon', component: FavoriteStackScreen },
    { name: 'BasketScreen', title: 'Корзина', icon: 'BasketTabIcon', component: BasketStackScreen },
    { name: 'ProfileScreen', title: 'Профиль', icon: 'ProfileTabIcon', component: MenuStackScreen },
 ];

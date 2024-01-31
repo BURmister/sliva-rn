@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import axios from 'axios';
 
-import ProductCard from '../../ui/ProductCard/ProductCard';
+import ProductCard from '../../ui/Card/ProductCard';
 import Loading from '../../ui/Loading/Loading';
 import HomeSections from '../HomeSections/HomeSections';
 

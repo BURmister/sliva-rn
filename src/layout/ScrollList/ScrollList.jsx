@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import axios from 'axios';
 
-import ProductCard from '../../ui/ProductCard/ProductCard';
+import ProductCard from '../../ui/Card/ProductCard';
 import Loading from '../../ui/Loading/Loading';
 
 export const ScrollList = ({ renderData = [], getDataUrl = '', captionTitle, navigation }) => {
