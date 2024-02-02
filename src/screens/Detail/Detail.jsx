@@ -7,13 +7,15 @@ import {
    Dimensions,
    StyleSheet,
    Platform,
-   Animated,
+   Animated as AnimatedRN,
    Text,
    ScrollView,
    TouchableOpacity,
    Share,
 } from 'react-native';
 import axios from 'axios';
+
+import Animated from 'react-native-reanimated';
 
 import Loading from '../../ui/Loading/Loading';
 import NoPhotoImg from '../../../assets/no_photo.png';
@@ -27,7 +29,7 @@ export const DetailScreen = ({ route, navigation }) => {
    const [product, setProduct] = useState([]);
    const [loading, setLoading] = useState(false);
 
-   const scrollX = useRef(new Animated.Value(0)).current;
+   const scrollX = useRef(new AnimatedRN.Value(0)).current;
 
    const getData = async () => {
       setLoading(true);
@@ -37,10 +39,10 @@ export const DetailScreen = ({ route, navigation }) => {
          const { data } = await axios.get('https://24135ab27ba65bc5.mokky.dev/products/' + id);
          setProduct(data);
       } catch (error) {
-         alert('На сервере произошла ошибка. Попробуйте позже!');
+         alert('На сервере произошла ошибка. Попробуйте позже.');
       }
 
-      navigation.setOptions({ title: title, headerShown: true });
+      // navigation.setOptions({ title: title, headerShown: true });
       setLoading(false);
    };
 
@@ -58,31 +60,62 @@ export const DetailScreen = ({ route, navigation }) => {
       }
    };
 
+   const goBack = () => {
+      if (navigation.canGoBack()) {
+         navigation.goBack();
+      }
+   }
+
    useEffect(() => {
       getData();
    }, []);
 
-   if (loading) return <Loading style={[styles.container, styles.loadingContainer]} />;
+   // if (loading) return <Loading style={[styles.container, styles.loadingContainer]} />;
 
    return (
-      <View style={{ position: 'relative', paddingBottom: 48, flex: 1, backgroundColor: '#fff' }}>
+      <View style={{ position: 'relative', paddingVertical: 48, flex: 1, backgroundColor: '#fff' }}>
+         <View
+            style={{
+               position: 'absolute',
+               top: 0,
+               left: 0,
+               width: '100%',
+               flexDirection: 'row',
+               backgroundColor: '#fff',
+            }}>
+            <TouchableOpacity
+               style={{ paddingHorizontal: 8, height: 48, flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}
+               onPress={() => goBack()}>
+               <Text style={{ fontSize: 16, fontWeight: '300', color: '#333' }}>Назад </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+               style={{ paddingHorizontal: 8, height: 48, alignItems: 'flex-start', justifyContent: 'center' }}
+               onPress={() => sendMsg()}>
+               <Text style={{ fontSize: 16, fontWeight: '300', color: '#333' }}>Поделиться </Text>
+            </TouchableOpacity>
+         </View>
          <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
             <View style={{ position: 'relative' }}>
-               <Animated.FlatList
+               <AnimatedRN.FlatList
                   bounces={false}
                   horizontal={true}
                   snapToInterval={width}
                   decelerationRate="fast"
+                  disableIntervalMomentum
                   showsHorizontalScrollIndicator={false}
                   data={product.images}
                   keyExtractor={(_, index) => index.toString()}
                   renderItem={({ item }) => {
-                     return <Image style={{ width, height: width * 1, objectFit: 'cover' }} source={{ uri: item }} />;
+                     return (
+                        <Animated.Image sharedTransitionTag="tag" style={{ width, height: width * 1, objectFit: 'cover' }} source={{ uri: item }} />
+                     );
                   }}
                   ListEmptyComponent={() => {
-                     return <Image style={{ width, height: width * 1, objectFit: 'cover' }} source={NoPhotoImg} />;
+                     return (
+                        <Animated.Image sharedTransitionTag="tag" style={{ width, height: width * 1, objectFit: 'cover' }} source={NoPhotoImg} />
+                     );
                   }}
-                  onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], { useNativeDriver: true })}
+                  onScroll={AnimatedRN.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], { useNativeDriver: true })}
                />
                <View style={{ position: 'absolute', bottom: 8, left: 0, height: 16, width: '100%', alignItems: 'center' }}>
                   <View style={{ flexDirection: 'row', gap: 8 }}>
@@ -90,7 +123,7 @@ export const DetailScreen = ({ route, navigation }) => {
                         product.images.map((_, index) => {
                            return <View key={index} style={{ width: 8, height: 8, borderRadius: 8 / 2, backgroundColor: '#333' }} />;
                         })}
-                     <Animated.View
+                     <AnimatedRN.View
                         style={{
                            position: 'absolute',
                            left: -16 / 4,
@@ -102,7 +135,7 @@ export const DetailScreen = ({ route, navigation }) => {
                            borderColor: '#333',
                            transform: [
                               {
-                                 translateX: Animated.divide(scrollX, width).interpolate({
+                                 translateX: AnimatedRN.divide(scrollX, width).interpolate({
                                     inputRange: [0, 1],
                                     outputRange: [0, 16],
                                  }),
@@ -135,11 +168,6 @@ export const DetailScreen = ({ route, navigation }) => {
                      <Text style={{ fontSize: 14 }}>₽/{product.measure} </Text>
                   </View>
                   <Text style={{ color: '#40b484' }}>сливная цена</Text>
-               </View>
-               <View>
-                  <TouchableOpacity onPress={() => sendMsg()}>
-                     <Text>Поделиться</Text>
-                  </TouchableOpacity>
                </View>
                <Text>
                   Длинное описание. Длинное описание. Длинное описание. Длинное описание. Длинное описание. Длинное описание. Длинное описание.
@@ -198,9 +226,13 @@ export const DetailScreen = ({ route, navigation }) => {
                </TouchableOpacity>
             </View>
          </View>
-         <StatusBar animated={true} backgroundColor="#ffffff" barStyle={'dark-content'} showHideTransition={'fade'} />
+         <StatusBar AnimatedRN={true} backgroundColor="#ffffff" barStyle={'dark-content'} showHideTransition={'fade'} />
       </View>
    );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+   container: {
+      backgroundColor: '#fff',
+   }
+});

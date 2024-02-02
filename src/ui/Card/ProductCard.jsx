@@ -3,6 +3,8 @@ import Svg, { Path, Circle, G, Defs, LinearGradient, Stop, ClipPath, Rect } from
 
 import NoPhotoImg from '../../../assets/no_photo.png';
 
+import Animated from 'react-native-reanimated';
+
 const trunclateTitle = (title = "") => {
    if (title.length >= 42) return title.substring(0, 42) + '...';
    return title;
@@ -83,7 +85,11 @@ const ProductCard = ({ product, navigateDetailScreen }) => {
                </TouchableOpacity>
             </View>
             <View style={styles.productImgWrapper}>
-               <Image style={styles.productImg} source={product.images[0] ? {uri: product.images[0]} : NoPhotoImg} />
+               <Animated.Image
+                  sharedTransitionTag="tag"
+                  style={styles.productImg}
+                  source={product.images[0] ? { uri: product.images[0] } : NoPhotoImg}
+               />
             </View>
             <View style={styles.productPriceWrapper}>
                <View style={styles.productPrice}>
