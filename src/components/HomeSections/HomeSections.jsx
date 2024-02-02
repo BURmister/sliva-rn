@@ -11,23 +11,19 @@ import {
    View,
    Text,
    Animated,
-   useWindowDimensions,
    useColorScheme,
 } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { ScrollList } from '../../layout/ScrollList/ScrollList';
-import { ImageList } from '../../ui/Slider/Slider';
-import { Stories } from '../../ui/Stories/Stories';
+import { ScrollList } from '../ScrollList/ScrollList';
+import { ImageList } from '../Slider/Slider';
+import { Stories } from '../Stories/Stories';
+import OverlayCard from '../../ui/Card/OverlayCard';
 
 const { width, height } = Dimensions.get('screen');
 
-const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : StatusBar.currentHeight;
 const OVERLAY_HEIGHT = 380;
-const BOTTOM_SHEET_HEIGHT = height * 0.4;
-const SHEET_BORDER_RADIUS = 8;
-
-
 
 const stories = [
    {
@@ -75,54 +71,37 @@ const bannerData = [
    },
 ];
 
-const STYLES = ['default', 'dark-content', 'light-content'];
-const TRANSITIONS = ['fade', 'slide', 'none'];
-
-const OverlayCard = ({ icon = null, title, text, buttonTitle = null }) => {
-   return (
-      <View
-         style={{
-            padding: 16,
-            width: width * 0.6,
-            height: 160,
-            flexDirection: 'column',
-            gap: 16,
-            backgroundColor: '#fff',
-            borderRadius: 8,
-         }}>
-         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-            {icon && icon}
-            <Text style={{ flex: 1, flexWrap: 'wrap', fontSize: 18, fontWeight: '800' }}>{title}</Text>
-         </View>
-         <View style={{ alignItems: 'flex-start', gap: 8 }}>
-            <Text style={{ fontSize: 14, fontWeight: '300', color: '#1c1e21' }}>{text}</Text>
-            {buttonTitle && (
-               <TouchableOpacity style={{ paddingVertical: 4, paddingHorizontal: 16, backgroundColor: '#3aaff1', borderRadius: 4 }}>
-                  <Text style={{ fontSize: 14, color: '#fff' }}>{buttonTitle} </Text>
-               </TouchableOpacity>
-            )}
-         </View>
-      </View>
-   );
-};
-
-
 const HomeSections = memo(function HomeSections({ navigation }) {
+   const scrollY = useRef(new Animated.Value(0)).current;
    const [laoding, setLoading] = useState(false);
-
    const colorScheme = useColorScheme();
 
-   const scrollY = useRef(new Animated.Value(0)).current;
-   const barBackground = scrollY.interpolate({
-      inputRange: [0, OVERLAY_HEIGHT],
-      outputRange: ['#ffffff00', '#fff'],
-      extrapolate: 'clamp',
-   });
+   const storeData = async (key, value) => {
+      try {
+         await AsyncStorage.setItem(key, value);
+      } catch (e) {
+         // saving error
+      }
+   };
+
+   const getData = async (key) => {
+      try {
+         const value = await AsyncStorage.getItem(key);
+         if (value !== null) return value
+      } catch (e) {
+         // error reading value
+      }
+   };
 
    _onRefresh = () => {
       if (laoding) return;
       setLoading(true);
-      setTimeout(() => setLoading(false), 2000);
+      // storeData('token', 'JWT_SECRET');
+
+      setTimeout(() => {
+         setLoading(false);
+         getData('token');
+      }, 2000);
    };
 
    return (
@@ -199,7 +178,7 @@ const HomeSections = memo(function HomeSections({ navigation }) {
                   elevation: 4,
                   shadowOpacity: 0.4,
                   shadowRadius: 8,
-                  backgroundColor: '#f6f6f6'
+                  backgroundColor: '#f6f6f6',
                }}>
                <ScrollList captionTitle={'Спеццена'} getDataUrl={'https://24135ab27ba65bc5.mokky.dev/products'} navigation={navigation} />
                <ImageList navigation={navigation} data={bannerData} />

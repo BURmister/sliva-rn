@@ -2,7 +2,7 @@
 // import { useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, Text } from 'react-native';
 
-import InfiniteScroll from '../../layout/InfiniteScroll/InfiniteScroll';
+import InfiniteScroll from '../../components/InfiniteScroll/InfiniteScroll';
 
 export const BasketScreen = ({ navigation }) => {
    const navigateDetailScreen = (params) => navigation.navigate('DetailScreen', params);

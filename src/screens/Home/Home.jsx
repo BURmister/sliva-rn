@@ -1,11 +1,15 @@
 import { SafeAreaView, StyleSheet } from 'react-native';
-import HomeSections from '../../layout/HomeSections/HomeSections';
+import HomeSections from '../../components/HomeSections/HomeSections';
+
 
 import * as NavigationBar from 'expo-navigation-bar';
 
 export const HomeScreen = ({ navigation }) => {
    NavigationBar.setBackgroundColorAsync('white');
    NavigationBar.setButtonStyleAsync('dark');
+
+   
+   
 
 
    return (

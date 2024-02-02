@@ -1,7 +1,7 @@
 import { SafeAreaView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Animated, { useSharedValue, withSpring } from 'react-native-reanimated';
 
-import InfiniteScroll from '../../layout/InfiniteScroll/InfiniteScroll';
+import InfiniteScroll from '../../components/InfiniteScroll/InfiniteScroll';
 
 export const MenuScreen = ({ navigation }) => {
    const navigateDetailScreen = (params) => navigation.navigate('DetailScreen', params);
