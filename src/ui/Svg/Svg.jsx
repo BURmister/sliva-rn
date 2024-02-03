@@ -1,5 +1,4 @@
-import Svg, { Path } from "react-native-svg"
-
+import Svg, { Path } from 'react-native-svg';
 
 export const HomeTabIcon = ({ size, focused, color }) => {
    return (
@@ -8,7 +7,7 @@ export const HomeTabIcon = ({ size, focused, color }) => {
          <Path d="M0.941406 14.652L14.4554 3.55951L28.0564 14.7245" stroke={color} strokeWidth={2} strokeMiterlimit={10}></Path>
       </Svg>
    );
-}
+};
 
 export const CatalogTabIcon = ({ size, focused, color }) => {
    return (
@@ -25,7 +24,7 @@ export const CatalogTabIcon = ({ size, focused, color }) => {
          <Path d="M0.234375 2.50665H17.641" stroke={color} strokeWidth={2} strokeMiterlimit={10}></Path>
       </Svg>
    );
-}
+};
 
 export const ProfileTabIcon = ({ size, focused, color }) => {
    return (
@@ -84,4 +83,47 @@ export const useSvgIcon = ({ name, size, focused, color }) => {
       default:
          return null;
    }
-}
+};
+
+export const FlashIcon = ({ height, width, fill, stroke, strokeWidth }) => {
+   return (
+      <Svg viewBox="0 0 512 512" height={height} width={width} xmlns="http://www.w3.org/2000/svg">
+         <Path
+            fill={fill}
+            strokeLinecap={'round'}
+            strokeLinejoin={'round'}
+            strokeWidth={strokeWidth}
+            stroke={stroke}
+            d="M315.27 33 96 304h128l-31.51 173.23a2.36 2.36 0 0 0 2.33 2.77h0a2.36 2.36 0 0 0 1.89-.95L416 208H288l31.66-173.25a2.45 2.45 0 0 0-2.44-2.75h0a2.42 2.42 0 0 0-1.95 1z"></Path>
+      </Svg>
+   );
+};
+
+export const BoxIcon = ({ height, width, fill, stroke, strokeWidth }) => {
+   return (
+      <Svg stroke={stroke} fill={fill} strokeWidth={strokeWidth} viewBox="0 0 16 16" height={height} width={width} xmlns="http://www.w3.org/2000/svg">
+         <Path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z"></Path>
+      </Svg>
+   );
+};
+
+export const UserIcon = ({ height, width, fill, stroke, strokeWidth }) => {
+   return (
+      <Svg viewBox="0 0 256 256" height={height} width={width} xmlns="http://www.w3.org/2000/svg">
+         <Path
+            d="M128,26A102,102,0,1,0,230,128,102.12,102.12,0,0,0,128,26ZM71.44,198a66,66,0,0,1,113.12,0,89.8,89.8,0,0,1-113.12,0ZM94,120a34,34,0,1,1,34,34A34,34,0,0,1,94,120Zm99.51,69.64a77.53,77.53,0,0,0-40-31.38,46,46,0,1,0-51,0,77.53,77.53,0,0,0-40,31.38,90,90,0,1,1,131,0Z"
+            fill={fill}
+            stroke={stroke}
+            strokeWidth={strokeWidth}></Path>
+      </Svg>
+   );
+};
+
+export const BagIcon = ({ height, width, fill, stroke, strokeWidth }) => {
+   return (
+      <Svg stroke={stroke} fill={fill} strokeWidth={strokeWidth} viewBox="0 0 16 16" height={height} width={width} xmlns="http://www.w3.org/2000/svg">
+         <Path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"></Path>
+      </Svg>
+   );
+};
+
