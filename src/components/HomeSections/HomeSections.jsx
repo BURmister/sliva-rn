@@ -11,6 +11,8 @@ import {
    View,
    Text,
    Animated,
+   FlatList,
+   Image,
    useColorScheme,
 } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
@@ -19,11 +21,32 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ScrollList } from '../ScrollList/ScrollList';
 import { ImageList } from '../Slider/Slider';
 import { Stories } from '../Stories/Stories';
-import OverlayCard from '../../ui/Card/OverlayCard';
+import { ActionCard } from '../../ui/Card/ActionCard';
+import { BoxIcon } from '../../ui/Svg/Svg';
+import { Greeting } from '../../ui/Greeting/Greeting';
 
 const { width, height } = Dimensions.get('screen');
 
-const OVERLAY_HEIGHT = 380;
+const OVERLAY_HEIGHT = height * 0.6 + 8;
+
+const bannerOverlay = [
+   {
+      photo: 'https://88227.selcdn.ru/cm-catalog-api-prod/story_media/817210af-d4cb-4045-be1e-d89af65aebf7.jpg',
+      title: 'Какие фрукты взять зимой?'
+   },
+   {
+      photo: 'https://88227.selcdn.ru/cm-catalog-api-prod/story_media/fac07c3b-f9b1-4cf6-88d6-34d5649627a5.jpg',
+      title: 'Вкусняшки и напитки'
+   },
+   {
+      photo: 'https://88227.selcdn.ru/cm-catalog-api-prod/story_media/67c05d7e-c320-4382-bef4-447d0ca48869.jpg',
+      title: 'Взять на прогулку'
+   },
+   {
+      photo: 'https://88227.selcdn.ru/cm-catalog-api-prod/story_media/752b4f6d-5ca6-4783-9a45-18f3a1c4e5f7.jpg',
+      title: 'Правильное питание'
+   }
+];
 
 const stories = [
    {
@@ -72,8 +95,10 @@ const bannerData = [
 ];
 
 const HomeSections = memo(function HomeSections({ navigation }) {
-   const scrollY = useRef(new Animated.Value(0)).current;
    const [laoding, setLoading] = useState(false);
+   const [barBackground, setBarBackground] = useState('transparent');
+
+   const scrollY = useRef(new Animated.Value(0)).current;
    const colorScheme = useColorScheme();
 
    const storeData = async (key, value) => {
@@ -87,7 +112,7 @@ const HomeSections = memo(function HomeSections({ navigation }) {
    const getData = async (key) => {
       try {
          const value = await AsyncStorage.getItem(key);
-         if (value !== null) return value
+         if (value !== null) return value;
       } catch (e) {
          // error reading value
       }
@@ -104,13 +129,28 @@ const HomeSections = memo(function HomeSections({ navigation }) {
       }, 2000);
    };
 
+   handleScroll = (event) => {
+      if (event.nativeEvent.contentOffset.y < OVERLAY_HEIGHT * 0.8) {
+         if (barBackground === 'transparent') return;
+         return setBarBackground('transparent');
+      } 
+      
+      if (event.nativeEvent.contentOffset.y >= OVERLAY_HEIGHT * 0.8) {
+         if (barBackground === '#f6f6f6') return;
+         return setBarBackground('#f6f6f6');         
+      }
+   };
+
    return (
       <SafeAreaView style={{ flex: 1 }}>
          <Animated.ScrollView
             style={{ flex: 1 }}
             showsVerticalScrollIndicator={false}
             refreshControl={<RefreshControl refreshing={laoding} onRefresh={_onRefresh} colors={['#aa51b9']} tintColor={'#aa51b9'} />}
-            onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], { useNativeDriver: true })}>
+            onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], {
+               useNativeDriver: true,
+               listener: (event) => this.handleScroll(event),
+            })}>
             <View style={{ overflow: 'hidden', backgroundColor: colorScheme === 'light' ? '#f6f6f6' : '#232323' }}>
                <Animated.View
                   style={{
@@ -123,51 +163,43 @@ const HomeSections = memo(function HomeSections({ navigation }) {
                         extrapolate: 'clamp',
                      }),
                   }}>
-                  <View style={{ paddingHorizontal: 8, paddingVertical: 16 }}>
-                     <Stories data={stories} />
-                     <Text style={{ fontSize: 16, fontWeight: '800' }}>Рады снова вас видеть!</Text>
-                  </View>
-                  <ScrollView
-                     snapToInterval={width * 0.6}
-                     decelerationRate="fast"
-                     showsHorizontalScrollIndicator={false}
+                  <FlatList
                      bounces={false}
-                     horizontal
-                     contentContainerStyle={{ paddingHorizontal: 8, gap: 8 }}>
-                     <OverlayCard
-                        icon={
-                           <Svg viewBox="0 0 256 256" height={32} width={32} xmlns="http://www.w3.org/2000/svg">
-                              <Path
-                                 d="M128,26A102,102,0,1,0,230,128,102.12,102.12,0,0,0,128,26ZM71.44,198a66,66,0,0,1,113.12,0,89.8,89.8,0,0,1-113.12,0ZM94,120a34,34,0,1,1,34,34A34,34,0,0,1,94,120Zm99.51,69.64a77.53,77.53,0,0,0-40-31.38,46,46,0,1,0-51,0,77.53,77.53,0,0,0-40,31.38,90,90,0,1,1,131,0Z"
-                                 fill="#000"></Path>
-                           </Svg>
-                        }
-                        title={'Привет, Dev!'}
-                        text={'Ваш заказ №2304 собирается на складе.'}
-                     />
-                     <OverlayCard title={'1024 Бонусов'} text={'На вашем счете UDS 1024 бонусов!\nВы можете потратить их на нашу продукцию!'} />
-                     <OverlayCard
-                        // icon={
-                        //    <Svg viewBox="0 0 512 512" height={20} width={20} xmlns="http://www.w3.org/2000/svg">
-                        //       <Path
-                        //          fill={'#fff'}
-                        //          strokeLinecap={'round'}
-                        //          strokeLinejoin={"round"}
-                        //          strokeWidth={32}
-                        //          stroke={'#000'}
-                        //          d="M315.27 33 96 304h128l-31.51 173.23a2.36 2.36 0 0 0 2.33 2.77h0a2.36 2.36 0 0 0 1.89-.95L416 208H288l31.66-173.25a2.45 2.45 0 0 0-2.44-2.75h0a2.42 2.42 0 0 0-1.95 1z"></Path>
-                        //    </Svg>
-                        // }
-                        title={'Как вам работа нашего приложения?'}
-                        text={'Нам важно ваше мнение.'}
-                        buttonTitle={'Оценить'}
-                     />
-                  </ScrollView>
+                     horizontal={true}
+                     snapToInterval={width}
+                     decelerationRate="fast"
+                     disableIntervalMomentum
+                     showsHorizontalScrollIndicator={false}
+                     data={bannerOverlay}
+                     keyExtractor={(_, index) => index.toString()}
+                     renderItem={({ item }) => {
+                        return (
+                           <View style={{ position: 'relative' }}>
+                              <Image style={{ width, height: OVERLAY_HEIGHT, objectFit: 'cover' }} source={{ uri: item.photo }} />
+                              <Text
+                                 style={{
+                                    position: 'absolute',
+                                    paddingHorizontal: 8,
+                                    bottom: 32,
+                                    left: 0,
+                                    fontSize: 18,
+                                    fontWeight: '600',
+                                    color: '#fff',
+                                 }}>
+                                 {item.title}
+                              </Text>
+                           </View>
+                        );
+                     }}
+                  />
                </Animated.View>
             </View>
             <View
                style={{
-                  paddingVertical: 16,
+                  position: 'relative',
+                  top: -8,
+                  paddingTop: 16,
+                  paddingBottom: 8,
                   borderTopLeftRadius: 8,
                   borderTopRightRadius: 8,
                   shadowColor: '#333',
@@ -180,14 +212,40 @@ const HomeSections = memo(function HomeSections({ navigation }) {
                   shadowRadius: 8,
                   backgroundColor: '#f6f6f6',
                }}>
+               <View style={{ position: 'absolute', bottom: -8, left: 0, width: width, height: 8, backgroundColor: '#f6f6f6' }} />
+               <View style={{ paddingHorizontal: 8, paddingBottom: 16, gap: 8 }}>
+                  <Greeting style={{ paddingVertical: 8 }} />
+                  <ActionCard
+                     icon={<BoxIcon fill={'#000'} height={24} width={24} />}
+                     title={'Ваш заказ №2304 собирается на складе. '}
+                     titleStyle={{ fontSize: 14 }}
+                     style={{ flex: 1 }}
+                  />
+                  {/* <View style={{ flex: 1, flexDirection: 'row', gap: 8 }}>
+                     <ActionCard
+                        style={{ flex: 1 }}
+                        title={'1024 Бонусов'}
+                        text={'На вашем счете UDS 1024 бонусов!\nВы можете оплатить ими свои покупки! '}
+                     />
+                     <ActionCard
+                        style={{ flex: 1, height: 'auto' }}
+                        title={'Как вам работа нашего приложения?'}
+                        text={'Нам важно ваше мнение.'}
+                        buttonTitle={'Оценить'}
+                     />
+                  </View> */}
+               </View>
                <ScrollList captionTitle={'Спеццена'} getDataUrl={'https://24135ab27ba65bc5.mokky.dev/products'} navigation={navigation} />
-               <ImageList navigation={navigation} data={bannerData} />
+               <View style={{ paddingHorizontal: 8 }}>
+                  <Stories data={stories} />
+               </View>
                <ScrollList captionTitle={'Хиты'} getDataUrl={'https://24135ab27ba65bc5.mokky.dev/products'} navigation={navigation} />
+               {/* <ImageList navigation={navigation} data={bannerData} /> */}
                <ScrollList captionTitle={'Сливаем цены'} getDataUrl={'https://24135ab27ba65bc5.mokky.dev/products'} navigation={navigation} />
                <ScrollList captionTitle={'Подобрано для вас'} getDataUrl={'https://24135ab27ba65bc5.mokky.dev/products'} navigation={navigation} />
             </View>
          </Animated.ScrollView>
-         <StatusBar animated={true} backgroundColor="#f6f6f6" barStyle={'dark-content'} showHideTransition={'fade'} />
+         <StatusBar animated={true} backgroundColor={barBackground} barStyle={'dark-content'} showHideTransition={'fade'} translucent />
       </SafeAreaView>
    );
 });

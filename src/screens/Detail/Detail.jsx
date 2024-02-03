@@ -226,7 +226,7 @@ export const DetailScreen = ({ route, navigation }) => {
                </TouchableOpacity>
             </View>
          </View>
-         <StatusBar AnimatedRN={true} backgroundColor="#ffffff" barStyle={'dark-content'} showHideTransition={'fade'} />
+         <StatusBar translucent={false} backgroundColor="#ffffff" barStyle={'dark-content'} showHideTransition={'fade'} />
       </View>
    );
 };
