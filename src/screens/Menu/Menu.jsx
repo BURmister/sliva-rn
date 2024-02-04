@@ -1,11 +1,9 @@
 import { SafeAreaView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Animated, { useSharedValue, withSpring } from 'react-native-reanimated';
 
-import InfiniteScroll from '../../components/InfiniteScroll/InfiniteScroll';
+import { ActionCard } from '../../ui/Card/ActionCard';
 
 export const MenuScreen = ({ navigation }) => {
-   const navigateDetailScreen = (params) => navigation.navigate('DetailScreen', params);
-
    const width = useSharedValue(100);
 
    const handlePress = () => {
@@ -19,6 +17,15 @@ export const MenuScreen = ({ navigation }) => {
    return (
       <SafeAreaView style={styles.container}>
          <Text>Menu </Text>
+         <View style={{ flex: 1, flexDirection: 'row', gap: 8 }}>
+            <ActionCard style={{ flex: 1 }} title={'1024 Бонусов'} text={'На вашем счете UDS 1024 бонусов!\nВы можете оплатить ими свои покупки! '} />
+            <ActionCard
+               style={{ flex: 1, height: 'auto' }}
+               title={'Как вам работа нашего приложения?'}
+               text={'Нам важно ваше мнение.'}
+               buttonTitle={'Оценить'}
+            />
+         </View>
          {/* <View style={{ flexDirection: 'column', rowGap: 16, alignItems: 'center' }}>
             <Animated.View
                style={{

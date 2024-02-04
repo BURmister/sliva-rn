@@ -8,10 +8,6 @@ export const HomeScreen = ({ navigation }) => {
    NavigationBar.setBackgroundColorAsync('white');
    NavigationBar.setButtonStyleAsync('dark');
 
-   
-   
-
-
    return (
       <SafeAreaView style={styles.container}>
          <HomeSections navigation={navigation} />

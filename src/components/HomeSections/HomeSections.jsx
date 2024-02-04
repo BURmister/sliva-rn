@@ -79,21 +79,6 @@ const stories = [
    },
 ];
 
-const bannerData = [
-   {
-      id: '1',
-      uri: 'https://cms.mvideo.ru/magnoliaPublic/.imaging/webp/dam/892b364b-7083-40af-b763-fe49ef2d2151',
-   },
-   {
-      id: '5',
-      uri: 'https://sliva24.ru/upload/iblock/70a/a1x471lqh20ghuglxugamsrgob4810lx.png',
-   },
-   {
-      id: '6',
-      uri: 'https://sliva24.ru/upload/iblock/a90/tqaqibdtws89sep8nela8hjqn0o9rmzi.png',
-   },
-];
-
 const HomeSections = memo(function HomeSections({ navigation }) {
    const [laoding, setLoading] = useState(false);
    const [barBackground, setBarBackground] = useState('transparent');
@@ -221,26 +206,12 @@ const HomeSections = memo(function HomeSections({ navigation }) {
                      titleStyle={{ fontSize: 14 }}
                      style={{ flex: 1 }}
                   />
-                  {/* <View style={{ flex: 1, flexDirection: 'row', gap: 8 }}>
-                     <ActionCard
-                        style={{ flex: 1 }}
-                        title={'1024 Бонусов'}
-                        text={'На вашем счете UDS 1024 бонусов!\nВы можете оплатить ими свои покупки! '}
-                     />
-                     <ActionCard
-                        style={{ flex: 1, height: 'auto' }}
-                        title={'Как вам работа нашего приложения?'}
-                        text={'Нам важно ваше мнение.'}
-                        buttonTitle={'Оценить'}
-                     />
-                  </View> */}
                </View>
                <ScrollList captionTitle={'Спеццена'} getDataUrl={'https://24135ab27ba65bc5.mokky.dev/products'} navigation={navigation} />
                <View style={{ paddingHorizontal: 8 }}>
                   <Stories data={stories} />
                </View>
                <ScrollList captionTitle={'Хиты'} getDataUrl={'https://24135ab27ba65bc5.mokky.dev/products'} navigation={navigation} />
-               {/* <ImageList navigation={navigation} data={bannerData} /> */}
                <ScrollList captionTitle={'Сливаем цены'} getDataUrl={'https://24135ab27ba65bc5.mokky.dev/products'} navigation={navigation} />
                <ScrollList captionTitle={'Подобрано для вас'} getDataUrl={'https://24135ab27ba65bc5.mokky.dev/products'} navigation={navigation} />
             </View>

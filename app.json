@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "scheme": "sliva24",
+    "scheme": "sliva",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
